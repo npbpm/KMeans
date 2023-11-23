@@ -34,7 +34,7 @@ def distance(u: np.ndarray, v: np.ndarray) -> float:
     """
     return np.sqrt(np.sum((u - v) ** 2))
 
-def kMeans(data: np.ndarray, k: int = 3, axis: int = 0) -> np.ndarray:
+def kMeans(data: np.ndarray, k: int = 3, axis: int = 0) -> tuple[np.ndarray, list]:
     """Calculates the clusters for a given dataset using the K-Means algorithm.
 
     Parameters
@@ -109,7 +109,7 @@ def kMeans(data: np.ndarray, k: int = 3, axis: int = 0) -> np.ndarray:
         if convergenceDist == 0:
             break
 
-    return clusters
+    return clusters,centroids
 
 def plotKMeans(data: np.ndarray, k: int = 3, axis: int = 0, clusters: list = []):
     """Plots the results of the K-Means algorithm in a 2D or 3D espace.
@@ -136,9 +136,9 @@ def plotKMeans(data: np.ndarray, k: int = 3, axis: int = 0, clusters: list = [])
         data = np.transpose(data)
 
     if len(clusters) == 0:
-        clusters = kMeans(data, k)
+        clusters, centroids = kMeans(data, k)
 
-    if(np.shape(data)[1] == 2):
+    if np.shape(data)[1] == 2:
         fig, ax = plt.subplots(1, 1)
         colors = plt.cm.tab10(np.linspace(0, 1, k))
         for i in range(k):
